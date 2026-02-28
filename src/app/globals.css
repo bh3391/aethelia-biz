@@ -1,26 +1,103 @@
 @import "tailwindcss";
 
+@theme {
+  /* Setup Font (Variabel dari next/font di layout) */
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+
+  /* Custom Colors untuk Aethelia */
+  --color-gold: hsl(var(--gold));
+  --color-gold-muted: #AA8C2C;
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  
+  /* Border & Surface Colors */
+  --color-border-subtle: hsl(var(--stone-900));
+}
+
+/* --- Variable Definitions --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dark Mode (Default) */
+  --background: 0 0% 3%;     /* #080808 */
+  --foreground: 0 0% 98%;    /* #fafafa */
+  --gold: 43 50% 50%;        /* #c5a059 */
+  --stone-900: 0 0% 9%;      /* #171717 */
+  --stone-800: 0 0% 15%;     /* #262626 */
+  
+  /* Smooth Transition */
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root.light, [data-theme='light'] {
+  /* Light Mode - Aesthetic Cream & Dark Stone */
+  --background: 40 20% 96%;  /* Off-White Cream #f8f8f5 */
+  --foreground: 0 0% 10%;    /* Deep Charcoal #1a1a1a */
+  --gold: 43 60% 40%;        /* Deeper Gold for contrast */
+  --stone-900: 0 0% 90%;     /* Light grey borders */
+  --stone-800: 0 0% 80%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* --- Base Styles --- */
+@layer base {
+  * {
+    @apply border-stone-800/50; /* Border default yang mengikuti theme */
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Luxury Selection */
+  ::selection {
+    background-color: var(--color-gold);
+    color: #000;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Container untuk Mockup */
+.project-window {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(139, 121, 94, 0.2); /* Warna Gold tipis */
+  background: #1a1a1a;
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Gambar Screenshot Panjang */
+.screenshot-scroll {
+  width: 100%;
+  height: auto;
+  transition: transform 6s ease-in-out; /* Durasi scroll 6 detik */
+  will-change: transform;
+}
+
+/* Efek Hover: Scroll ke bawah */
+/* Kita asumsikan gambar bergerak 70% ke bawah, sesuaikan dengan panjang screenshot */
+.project-window:hover .screenshot-scroll {
+  transform: translateY(calc(-100% + 500px)); 
+}
+
+/* Efek Overlay Mewah */
+.window-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.2) 0%,
+    transparent 10%,
+    transparent 90%,
+    rgba(0,0,0,0.4) 100%
+  );
+  z-index: 10;
 }
